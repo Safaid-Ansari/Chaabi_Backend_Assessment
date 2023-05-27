@@ -1,0 +1,456 @@
+# Chaabi_Backend_Assessment
+
+
+## One file is solution.txt in the folder there all the answers 
+
+## Solutions of all the questions here as well 
+
+Q1. Get your basics right - Implement selection sort algorithm in python. The function accepts a
+list in the input and returns a sorted list.
+
+E.g.
+Input f1([5,416,54,21,6135,15,741]) should
+Return [5, 15, 21, 54, 416, 741, 6135]  
+
+...........Solution............
+```base 
+def selection_sort(arr):
+    n = len(arr)
+    for i in range(n - 1):
+        min_idx = i
+        for j in range(i + 1, n):
+            if arr[j] < arr[min_idx]:
+                min_idx = j
+        arr[i], arr[min_idx] = arr[min_idx], arr[i]
+    return arr
+    
+    
+my_list = [5,416,54,21,6135,15,741]
+sorted_list = selection_sort(my_list)
+print(sorted_list)  
+
+```
+
+Explanation:------ 
+The selection_sort function takes an input list arr and performs an in-place sorting of the list using the selection sort algorithm. It iterates over the list, finds the minimum element in the remaining unsorted portion, and swaps it with the current element.
+
+
+
+
+
+Q2. Dictionary, what?
+Write a program that returns the file type from a file name. The type of the file is determined
+from the extension. Initially, a list of values of the form "extension,type"(e.g. xls,spreadsheet;
+png,image) will be input.
+The program takes input in the following form:
+1. Input extension and type values in the form of a string having the following format:
+a. "extension1,type1;extension2,type2;extension3,type3"
+b. E.g. If we needed to input xls → spreadsheet, xlsx → spreadsheet, jpg → image
+our string would be something like: "xls,spreadsheet;xlsx,spreadsheet;jpg,image"
+2. Input a list of filename.extension. E.g. an input list could be something like ["abc.html",
+"xyz.xls", "text.csv", "123"]
+The program should return a dict of filename: type pairs
+E.g.
+f("xls,spreadsheet;xlsx,spreadsheet;jpg,image", ["abc.jpg",
+"xyz.xls", "text.csv", "123"]) should return
+{
+"abc.jpg": "image",
+"xyz.xls": "spreadsheet",
+"Text.csv": "unknown",
+"123": "unknown"
+}
+
+...........Solution............
+
+```base 
+def get_file_types(extension_type_string, filenames):
+    extension_type_pairs = extension_type_string.split(';')
+    extension_type_map = {}
+    result = {}
+
+    for pair in extension_type_pairs:
+        extension, file_type = pair.split(',')
+        extension_type_map[extension] = file_type
+
+    for filename in filenames:
+        file_extension = filename.split('.')[-1]
+        file_type = extension_type_map.get(file_extension, 'unknown')
+        result[filename] = file_type
+
+    return result
+    
+extension_type_string = "xls,spreadsheet;xlsx,spreadsheet;jpg,image"
+filenames = ["abc.jpg", "xyz.xls", "text.csv", "123"]
+
+file_types = get_file_types(extension_type_string, filenames)
+print(file_types)
+
+``` 
+
+Explanation:------ 
+The get_file_types function takes the extension_type_string and filenames as inputs. It first splits the extension_type_string by semicolons to obtain individual extension-type pairs. It then creates a dictionary extension_type_map where the extension is the key and the file type is the value.
+Next, the function iterates over each filename in the filenames list. It extracts the file extension from each filename using split('.')[-1] and looks up the corresponding file type from the extension_type_map. If the file extension is not found in the map, it assigns the file type as 'unknown'. Finally, the function constructs a dictionary result where each filename is mapped to its corresponding file type.
+
+The result dictionary is then returned as the output of the function.
+
+
+
+
+Q3. Column Sorting, yay!
+
+Given a list of dicts, write a program to sort the list according to a key given in input.
+E.g.
+Input f([
+{"fruit": "orange", "color": "orange"},
+{"fruit": "apple", "color": "red"},
+{"fruit": "banana", "color": "yellow"},
+{"fruit": "blueberry", "color": "blue"}
+], "fruit")
+Should Output
+[
+{"fruit": "apple", "color": "red"},
+{"fruit": "banana", "color": "yellow"},
+{"fruit": "blueberry", "color": "blue"},
+{"fruit": "orange", "color": "orange"}
+]
+AND
+Input f([
+{"fruit": "orange", "color": "orange"},
+{"fruit": "apple", "color": "red"},
+{"fruit": "banana", "color": "yellow"},
+{"fruit": "blueberry", "color": "blue"}
+], "color")
+Should Output
+[
+{"fruit": "blueberry", "color": "blue"},
+{"fruit": "orange", "color": "orange"},
+{"fruit": "apple", "color": "red"},
+{"fruit": "banana", "color": "yellow"}
+]
+
+
+
+...........Solution............
+
+```base 
+def sort_list_of_dicts(lst, key):
+    return sorted(lst, key=lambda x: x[key])
+
+fruits = [
+    {"fruit": "orange", "color": "orange"},
+    {"fruit": "apple", "color": "red"},
+    {"fruit": "banana", "color": "yellow"},
+    {"fruit": "blueberry", "color": "blue"}
+]
+
+sorted_fruits_by_fruit = sort_list_of_dicts(fruits, "fruit")
+print(sorted_fruits_by_fruit)
+
+sorted_fruits_by_color = sort_list_of_dicts(fruits, "color")
+print(sorted_fruits_by_color) 
+
+```
+
+Explanation:------ 
+The sort_list_of_dicts function takes a list of dictionaries lst and a key key as inputs. It uses the sorted function and a lambda function as the key argument to perform the sorting. The lambda function lambda x: x[key] extracts the value of the specified key from each dictionary, which is then used as the basis for sorting.
+
+In the example usage, the fruits list is sorted based on the "fruit" key and "color" key separately using the sort_list_of_dicts function. The resulting sorted lists are then printed. 
+
+
+
+
+Q4. The power of one line -
+Given a dictionary, switch position of key and values in the dict, i.e., value becomes the key and
+key becomes value. The function's body shouldn't have more than one statement.
+f({
+"key1": "value1",
+"key2": "value2",
+"key3": "value3",
+"key4": "value4",
+"key5": "value5"
+}) should return
+{
+"value1": "key1",
+"value2": "key2",
+"value3": "key3",
+"value4": "key4",
+"value5": "key5"
+}
+
+
+...........Solution............
+
+```base 
+def switch_keys_values(dictionary):
+    return {value: key for key, value in dictionary.items()}
+
+# Example usage:
+input_dict = {
+    "key1": "value1",
+    "key2": "value2",
+    "key3": "value3",
+    "key4": "value4",
+    "key5": "value5"
+}
+
+output_dict = switch_keys_values(input_dict)
+print(output_dict)
+
+``` 
+
+Explanation:------ 
+The switch_keys_values function takes a dictionary dictionary as input. It uses a dictionary comprehension to create a new dictionary where the keys and values are swapped. The expression {value: key for key, value in dictionary.items()} iterates over each key-value pair in the input dictionary and assigns the value as the new key and the key as the new value.
+
+In the example usage, the input_dict is passed to the switch_keys_values function, and the resulting dictionary with swapped keys and values is stored in output_dict, which is then printed.
+
+
+
+
+
+Q5. Common, Not Common
+Given 2 lists in input. Write a program to return the elements, which are common to both
+lists(set intersection) and those which are not common(set symmetric difference) between the
+lists.
+Input:
+Mainstream = ["One Punch Man","Attack On Titan","One Piece","Sword
+Art Online","Bleach","Dragon Ball Z","One Piece"]
+must_watch = ["Full Metal Alchemist","Code Geass","Death
+Note","Stein's Gate","The Devil is a Part Timer!","One Piece","Attack
+On Titan"]
+f(mainstream, must_watch) should return:
+["One Piece", "Attack On Titan"], ["Dragon Ball Z", "Death Note",
+"One Punch Man", "Stein's Gate", "The Devil is a Part Timer!", "Sword
+Art Online","Full Metal Alchemist","'Bleach", "Code Geass"]
+
+
+...........Solution............
+
+```base 
+def compare_lists(list1, list2):
+    common_elements = list(set(list1) & set(list2))
+    not_common_elements = list(set(list1) ^ set(list2))
+    return common_elements, not_common_elements
+
+# Example usage:
+mainstream = ["One Punch Man", "Attack On Titan", "One Piece", "Sword Art Online", "Bleach", "Dragon Ball Z", "One Piece"]
+must_watch = ["Full Metal Alchemist", "Code Geass", "Death Note", "Stein's Gate", "The Devil is a Part Timer!", "One Piece", "Attack On Titan"]
+
+common, not_common = compare_lists(mainstream, must_watch)
+print(common)
+print(not_common)
+
+``` 
+
+Explanation:------ 
+The compare_lists function takes two lists list1 and list2 as input. It first converts both lists to sets using set() to remove duplicate elements and then uses the set intersection operator & to find the common elements between the sets. These common elements are then converted back to a list.
+
+Similarly, the function uses the set symmetric difference operator ^ to find the elements that are not common between the sets. These not common elements are also converted back to a list.
+
+In the example usage, the mainstream list and the must_watch list are passed to the compare_lists function, and the common and not common elements are stored in the common and not_common variables, respectively, which are then printed.
+
+
+
+Q6. Every other sub-list
+Given a list and 2 indices as input, return the sub-list enclosed within these 2 indices. It should
+contain every second element.
+E.g.
+Input f([2,3,5,7,11,13,17,19,23,29,31,37,41], 2, 9)
+Return [5, 11, 17, 23]
+
+
+...........Solution............
+
+```base 
+def get_every_other_sublist(lst, start, end):
+    sublist = lst[start+1:end:2]
+    return sublist
+
+# Example usage:
+my_list = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41]
+start_index = 2
+end_index = 9
+
+result = get_every_other_sublist(my_list, start_index, end_index)
+print(result)
+
+``` 
+
+Explanation:------ 
+The get_every_other_sublist function takes a list lst, a start index start, and an end index end as inputs. It uses list slicing with a step size of 2 ([start+1:end:2]) to extract every second element from the sublist enclosed within the given indices.
+
+In the example usage, the my_list is passed to the get_every_other_sublist function along with the start index start_index of 2 and the end index end_index of 9. The resulting sublist containing every second element is stored in the result variable, which is then printed.
+
+
+
+Q7. Calculate the factorial of a number using lambda function.
+
+...........Solution............
+
+```base  
+factorial = lambda n: 1 if n == 0 else n * factorial(n - 1)
+
+# Example usage:
+number = 5
+result = factorial(number)
+print(result)
+``` 
+
+Ans:120
+
+
+
+Explanation:------ 
+In this example, we define a lambda function called factorial that takes a number n as input. The lambda function recursively calculates the factorial by checking if the number is equal to 0. If it is, it returns 1 (base case). Otherwise, it multiplies the number by the factorial of n-1 and returns the result.
+
+In the example usage, we set the number variable to 5. We then call the factorial lambda function with number as the argument and store the result in the result variable. Finally, we print the result, which is the factorial of 5.
+
+
+
+Q8. Some neat tricks up her sleeve:
+Looking at the below code, write down the final values of A0, A1, ...An
+A0 = dict(zip(('a','b','c','d','e'),(1,2,3,4,5)))
+A1 = range(10)
+A2 = sorted([i for i in A1 if i in A0])
+A3 = sorted([A0[s] for s in A0])
+A4 = [i for i in A1 if i in A3]
+A5 = {i:i*i for i in A1}
+A6 = [[i,i*i] for i in A1]
+A7 = reduce(lambda x,y: x+y, [10,23, -45, 33])
+A8 = map(lambda x: x*2, [1,2,3,4])
+A9 = filter(lambda x: len(x) >3, [“I” , “want”, “to”, “learn”, “python”]) 
+
+...........Solution............
+
+A0: The variable A0 is assigned a dictionary created by zipping the keys ('a', 'b', 'c', 'd', 'e') with the values (1, 2, 3, 4, 5). The final value of A0 is {'a': 1, 'b': 2, 'c': 3, 'd': 4, 'e': 5} 
+
+A1 : The variable A1 is assigned a range object representing the numbers from 0 to 9. The final value of A1 is range(0, 10).
+
+A2 : The list comprehension [i for i in A1 if i in A0] iterates over the elements in A1 and filters out only those elements that are present as keys in A0. The resulting list is then sorted using the sorted function. The final value of A2 is [1, 2, 3, 4, 5].
+
+A3 : The list comprehension [A0[s] for s in A0] iterates over the keys in A0 and retrieves their corresponding values. The resulting list is then sorted using the sorted function. The final value of A3 is [1, 2, 3, 4, 5].
+
+A4 : The list comprehension [i for i in A1 if i in A3] iterates over the elements in A1 and filters out only those elements that are present in A3. The final value of A4 is [1, 2, 3, 4, 5].
+
+A5 : The dictionary comprehension {i: i*i for i in A1} iterates over the elements in A1 and creates a dictionary where each element is the key and its square is the value. The final value of A5 is {0: 0, 1: 1, 2: 4, 3: 9, 4: 16, 5: 25, 6: 36, 7: 49, 8: 64, 9: 81}.
+
+A6 : The list comprehension [[i, i*i] for i in A1] iterates over the elements in A1 and creates a list of lists, where each inner list contains the element itself and its square. The final value of A6 is [[0, 0], [1, 1], [2, 4], [3, 9], [4, 16], [5, 25], [6, 36], [7, 49], [8, 64], [9, 81]].
+
+A7 : The reduce function (which needs to be imported from the functools module) is used with a lambda function lambda x, y: x + y to calculate the sum of the elements in the list [10, 23, -45, 33]. The final value of A7 is 21
+
+A8 : The map function applies the lambda function lambda x: x * 2 to each element in the list [1, 2, 3, 4]. The final value of A8 is a map object, which can be converted to a list if needed. 
+
+A9 : The filter function applies the lambda function lambda x: len(x) > 3 to each element in the list ["I", "want", "to", "learn", "python"]. It filters out only those elements whose length is greater than 3. The final value of A9 is a filter object, which can be converted to a list if needed.
+
+
+
+Q9.
+Write a func that takes 3 args:
+from_date - string representing a date in the form of 'yy-mm-dd'
+to_date - string representing a date in the form of 'yy-mm-dd'
+difference - int
+Returns True if from_date and to_date are less than difference days away from each other, else
+returns False.
+
+...........Solution............
+
+```base 
+from datetime import datetime, timedelta
+
+def check_date_difference(from_date, to_date, difference):
+    date_format = '%y-%m-%d'
+    from_date_obj = datetime.strptime(from_date, date_format)
+    to_date_obj = datetime.strptime(to_date, date_format)
+    date_diff = (to_date_obj - from_date_obj).days
+
+    if date_diff < difference:
+        return True
+    else:
+        return False
+
+# Example usage:
+from_date = '21-05-15'
+to_date = '21-05-25'
+difference = 15
+
+result = check_date_difference(from_date, to_date, difference)
+print(result)
+
+``` 
+
+Explanation:------ 
+In this example, the check_date_difference function takes from_date, to_date, and difference as arguments. It first converts the date strings into datetime objects using the strptime function and the specified date format %y-%m-%d. It then calculates the difference in days between the two dates using the days attribute of the timedelta object resulting from the subtraction.
+
+If the date_diff is less than difference, the function returns True, indicating that the dates are less than difference days apart. Otherwise, it returns False.
+
+In the example usage, we set from_date to '21-05-15', to_date to '21-05-25', and difference to 15. We call the check_date_difference function with these values and store the result in the result variable. Finally, we print the result, which is True in this case.
+
+
+
+Q10. Of date and days
+Write a func that takes 2 args:
+date - string representing a date in the form of 'yy-mm-dd'
+n - integer
+Returns the string representation of date n days before 'date'
+E.g. f('16-12-10', 11) should return '16-11-29'
+
+
+...........Solution............
+```base 
+from datetime import datetime, timedelta
+
+def calculate_previous_date(date, n):
+    date_format = '%y-%m-%d'
+    given_date = datetime.strptime(date, date_format)
+    previous_date = given_date - timedelta(days=n)
+    previous_date_str = previous_date.strftime(date_format)
+    return previous_date_str
+
+# Example usage:
+date = '16-12-10'
+n = 11
+
+result = calculate_previous_date(date, n)
+print(result)
+
+``` 
+
+Explanation:------ 
+In this example, the calculate_previous_date function takes date and n as arguments. It first converts the date string into a datetime object using the strptime function and the specified date format %y-%m-%d. It then subtracts n days from the given date using the timedelta function.
+
+The resulting previous_date is a datetime object representing the date n days before the given date. Finally, we convert the previous_date back to a string using the strftime function and the specified date format, and return the string representation of the previous date.
+
+In the example usage, we set date to '16-12-10' and n to 11. We call the calculate_previous_date function with these values and store the result in the result variable. Finally, we print the result, which is '16-11-29' in this case.
+
+
+
+
+Q11. Something fishy there -
+Find output of following:
+def f(x,l=[]):
+for i in range(x):
+l.append(i*i)
+print(l)
+f(2)
+f(3,[3,2,1])
+f(3)
+
+
+
+...........Solution............
+```base  
+def f(x, l=[]):
+    for i in range(x):
+        l.append(i*i)
+    print(l)
+
+f(2) : [0, 1]
+f(3, [3, 2, 1]) : [3, 2, 1, 0, 1, 4]
+f(3) : [0, 1, 4] 
+
+```
+
+
+
+Explanation:------- 
+In the third call to f(3), since no argument is provided for l, the default list l is used. However, the default list retains its previous state, which was modified in the first call to f(2). Therefore, the function continues appending the squares of numbers 0, 1, and 2 to the default list [0, 1], resulting in the output [0, 1, 4, 0, 1, 4].
+
